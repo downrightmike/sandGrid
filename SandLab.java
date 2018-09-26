@@ -46,8 +46,8 @@
                         
                         
                         if (FILE_NAME != "") {
-    
-                            sandGrid = SandLabFiles.readFile(FILE_NAME);   //uncomment this later to save your file...
+                            System.out.println("loading " + FILE_NAME);
+                            //sandGrid = SandLabFiles.readFile(FILE_NAME);   //uncomment this later to save your file...
                         } 
                     }
                     
@@ -55,12 +55,13 @@
                     private void locationClicked(int row, int col, int tool){
                         
                         //insert code here 
-                        
+                        sandGrid[row][col] = tool;
+
                       if (tool == SAVEFILE) {
-                            SandLabFiles.setRowsAndCols(MAX_ROWS, MAX_COLS);
-                            SandLabFiles.writeFile(sandGrid, NEW_FILE_NAME);
-                          } else {
-                            sandGrid[row][col] = tool;
+                           //SandLabFiles.writeFile(grid, NEW_FILE_NAME);  //uncomment this later to save your file...
+                           // Lines below are from an older version that may not work out of the box
+                           // SandLabFiles.setRowsAndCols(MAX_ROWS, MAX_COLS);
+                           // SandLabFiles.writeFile(sandGrid, NEW_FILE_NAME); 
                           }
                     }
                     
