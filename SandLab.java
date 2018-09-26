@@ -86,14 +86,9 @@
                         //insert code here
                         int randomRow = getRandomNumber(0, MAX_COLS);
                         int randomCol = getRandomNumber(0, MAX_ROWS);
+                        //ToDo
 
-                        //if(randomRow > 0  && randomCol > 0){
-                           // if(sandGrid[randomRow][randomCol] == SAND & sandGrid[randomRow][randomCol + 1] == EMPTY){
-                            //sandGrid[randomRow][randomCol + 1] = SAND;
-                            //sandGrid[randomRow][randomCol] = EMPTY;
-                        //} //end 2nd if
-                       // } //else {sandGrid[randomRow][randomCol] = sandGrid[randomRow][randomCol];}
-                        //} //end of 1st if
+                    
                         
                     }//end of step
                     
