@@ -91,42 +91,44 @@
                         if(randomRow > 219 || randomCol > 179 ){
                             randomRow = 2;
                             randomCol = 2;
+                           //randomRow = randomRow - 219;
+                            //randomCol = randomCol - 179;
                         }
                         /*
                         if (sandGrid[0][randomCol] == SAND && sandGrid[1][randomCol] != METAL) {
                             sandGrid[1][randomCol] = SAND;
                             sandGrid[0][randomCol] = EMPTY;
                           } //This should keep the sand from bunching at the top if there is metal in row 1
-                     // This will modify the sand elements behavior. THOMAS
+                     // This will modify the sand elements behavior. 
                     */ //
                     modifySand(randomRow, randomCol);
                         
                     }//end of step
 
                     
-                    public void checkRowAndColBounds(int rndRowLocation, int rndColLocation, int elementType) {
+                    public void checkRowAndColBounds(int randomRow, int randomCol, int elementType) {
                         // If at location 0 on the columns is 
                        
-                        if(sandGrid[rndRowLocation][0] == elementType && sandGrid[rndRowLocation][180] != METAL) {
-                          sandGrid[rndRowLocation][0] = EMPTY;
-                          sandGrid[rndRowLocation][180] = elementType;
-                        } else if(sandGrid[rndRowLocation][0] == elementType && sandGrid[rndRowLocation][179] != METAL) {
-                            sandGrid[rndRowLocation][0] = EMPTY;
-                            sandGrid[rndRowLocation][179] = elementType;
+                        if(sandGrid[randomRow][0] == elementType && sandGrid[randomRow][180] != METAL) {
+                          sandGrid[randomRow][0] = EMPTY;
+                          sandGrid[randomRow][180] = elementType;
+                        } else if(sandGrid[randomRow][0] == elementType && sandGrid[randomRow][179] != METAL) {
+                            sandGrid[randomRow][0] = EMPTY;
+                            sandGrid[randomRow][179] = elementType;
                         
                         } else {
-                            sandGrid[rndRowLocation][0] = EMPTY;
-                            sandGrid[rndRowLocation][180] = EMPTY;
+                            sandGrid[randomRow][0] = EMPTY;
+                            sandGrid[randomRow][180] = EMPTY;
 
                         }
                         
-                        if(sandGrid[220][rndColLocation] == elementType && sandGrid[0][rndColLocation] != METAL) {
-                          sandGrid[220][rndColLocation] = EMPTY;
-                          sandGrid[0][rndColLocation] = elementType; 
+                        if(sandGrid[220][randomCol] == elementType && sandGrid[0][randomCol] != METAL) {
+                          sandGrid[220][randomCol] = EMPTY;
+                          sandGrid[0][randomCol] = elementType; 
                           
                         } else {
-                          sandGrid[220][rndColLocation] = EMPTY;
-                          sandGrid[0][rndColLocation] = EMPTY; 
+                          sandGrid[220][randomCol] = EMPTY;
+                          sandGrid[0][randomCol] = EMPTY; 
                         }
                         
                     
@@ -134,7 +136,7 @@
                       }// end of check
                       
                       // This module will modify the sand element.
-  public void modifySand(int rndRowLocation, int rndColLocation) {
+  public void modifySand(int randomRow, int randomCol) {
 
     // This will get a random number from 0-100.
     //int randomNumber = getRandomNumber(0, 10);
@@ -143,41 +145,41 @@
     //int modulus = randomNumber % 2;
     
     // Checking Row & Column Boundaries.
-    checkRowAndColBounds(rndRowLocation, rndColLocation, SAND);
+    checkRowAndColBounds(randomRow, randomCol, SAND);
     
     // If the element selected is sand and the element under it is EMPTY (blank), then it'll add sand to the
     // row below the selected location for the sand. This is done with a loop somewhere else of course for it to act fluidy.
-    if(sandGrid[rndRowLocation][rndColLocation] == SAND 
-         && sandGrid[rndRowLocation + 1][rndColLocation] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 80
-      sandGrid[rndRowLocation + 1][rndColLocation]  =  SAND;
-      sandGrid[rndRowLocation][rndColLocation]      = EMPTY;
+    if(sandGrid[randomRow][randomCol] == SAND 
+         && sandGrid[randomRow + 1][randomCol] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 80
+      sandGrid[randomRow + 1][randomCol]  =  SAND;
+      sandGrid[randomRow][randomCol]      = EMPTY;
       // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
       // min or max row has been reached.
-      //if(sandGrid[rndRowLocation + 1][rndColLocation] == sandGrid[MAX_ROWS - 1][rndColLocation]) {
-     //   sandGrid[rndRowLocation + 1][rndColLocation]              = EMPTY;
-      //  sandGrid[rndRowLocation - (MAX_ROWS - 2)][rndColLocation] =  SAND;
+      //if(sandGrid[randomRow + 1][randomCol] == sandGrid[MAX_ROWS - 1][randomCol]) {
+     //   sandGrid[randomRow + 1][randomCol]              = EMPTY;
+      //  sandGrid[randomRow - (MAX_ROWS - 2)][randomCol] =  SAND;
       //} // End of 2nd If-Statement.
     } // End of 1st If-Statement.
     
     // This will adjust the sand to pile instead of stack. It will check the right and the left locations. 
     // If there is an open spot on either side it'll end up being on the left or right side of the original position.
     // This is to the left. ADDITION BY : ZACH
-    /*if(sandGrid[rndRowLocation][rndColLocation] == SAND 
-         && sandGrid[rndRowLocation][rndColLocation - 1] != SAND 
-         && sandGrid[rndRowLocation][rndColLocation - 1] != METAL
+    /*if(sandGrid[randomRow][randomCol] == SAND 
+         && sandGrid[randomRow][randomCol - 1] != SAND 
+         && sandGrid[randomRow][randomCol - 1] != METAL
          && modulus == EVEN) {
       
-      sandGrid[rndRowLocation][rndColLocation - 1] =  SAND;
-      sandGrid[rndRowLocation][rndColLocation]     = EMPTY;
+      sandGrid[randomRow][randomCol - 1] =  SAND;
+      sandGrid[randomRow][randomCol]     = EMPTY;
          }*/
       // This is to the right. 
-     //else if(sandGrid[rndRowLocation][rndColLocation] == SAND
-      //          && sandGrid[rndRowLocation][rndColLocation + 1] != SAND 
-        //        && sandGrid[rndRowLocation][rndColLocation + 1] != METAL
+     //else if(sandGrid[randomRow][randomCol] == SAND
+      //          && sandGrid[randomRow][randomCol + 1] != SAND 
+        //        && sandGrid[randomRow][randomCol + 1] != METAL
           //      && modulus == ODD) { 
       
-    //  sandGrid[rndRowLocation][rndColLocation + 1] = SAND;
-    //  sandGrid[rndRowLocation][rndColLocation] = EMPTY;
+    //  sandGrid[randomRow][randomCol + 1] = SAND;
+    //  sandGrid[randomRow][randomCol] = EMPTY;
       
    // } // End of If-Statement.
   } // End of modify sand module.
