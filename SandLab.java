@@ -1,5 +1,5 @@
                 /* A. StudentName
-                * 
+                * Downrightmike
                 * 
                 */
                 import java.awt.*;
@@ -146,13 +146,20 @@
     
     // Checking Row & Column Boundaries.
     checkRowAndColBounds(randomRow, randomCol, SAND);
-    
+    //let's simplify the code checks by doing the row and col checks in shorthand.
+    //IMPORTANT TO SIMPLIFY
+    int r = randomRow;
+    int c = randomCol;
+    int rm1 = randomRow - 1;
+    int rp1 = randomRow + 1;
+    int cm1 = randomCol - 1;
+    int cp1 = randomCol + 1;
     // If the element selected is sand and the element under it is EMPTY (blank), then it'll add sand to the
     // row below the selected location for the sand. This is done with a loop somewhere else of course for it to act fluidy.
-    if(sandGrid[randomRow][randomCol] == SAND 
-         && sandGrid[randomRow + 1][randomCol] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 80
-      sandGrid[randomRow + 1][randomCol]  =  SAND;
-      sandGrid[randomRow][randomCol]      = EMPTY;
+    if(sandGrid[r][c] == SAND 
+         && sandGrid[rp1][c] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 80
+            sandGrid[rp1][c]  =  SAND;
+            sandGrid[r][c]      = EMPTY;
       // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
       // min or max row has been reached.
       //if(sandGrid[randomRow + 1][randomCol] == sandGrid[MAX_ROWS - 1][randomCol]) {
