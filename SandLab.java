@@ -1,6 +1,15 @@
                 /* A. StudentName
                 * Downrightmike
                 * 
+                *
+                *TODO: 
+                    Particles need to wrap
+                    sandGrid needs to use the max canvas
+                    Need to complete particles
+                        Destroyer
+                        Water 
+                        Oil
+                        Air
                 */
                 import java.awt.*;
                 import java.util.*;
@@ -102,8 +111,8 @@
                     public void step(){
                         
                         //insert code here
-                        int r = getRandomNumber(1, MAX_COLS); //Getting the range from 1 to max, should avoid 0 and max
-                        int c = getRandomNumber(1, MAX_ROWS); //Getting the range from 1 to max, should avoid 0 and max
+                        int r = getRandomNumber(1, MAX_COLS); //Getting range from 1 to max cols, low chance for 0 and max
+                        int c = getRandomNumber(1, MAX_ROWS); //Getting range from 1 to max rows,  low chance for 0 and max
                         //ToDo
                         //This bit of code corrects for the out of bounds exceptions and allows us to draw. MB
                         if(r > 219 || c > 179 ){
@@ -112,13 +121,7 @@
                            //r = r - 219;
                             //c = c - 179;
                         }
-                        /*
-                        if (sandGrid[0][c] == SAND && sandGrid[1][c] != METAL) {
-                            sandGrid[1][c] = SAND;
-                            sandGrid[0][c] = EMPTY;
-                          } //This should keep the sand from bunching at the top if there is metal in row 1
-                     // This will modify the sand elements behavior. 
-                    */ //
+                        
                     modifySand(r, c);
                     modifyCreator(r, c);
                     //Below methods have not been written yet
@@ -128,7 +131,15 @@
                     //modifyAir(r, c);
                     }//end of step
 
-                    
+                    // wrap from bottom to top
+                    //if(rp1 >= MAX_ROWS){rp1 = 0;}
+                    // wrap from top to bottom
+                   // if(rm1 <= 0){rm1 = (MAX_ROWS -1)}
+                    // Wrap from right to left
+                    //if(cp1 >= MAX_COLS){cp1 = 0;}
+                    // Wrap from left to right
+                   // if(cm1 <= 0){cm1 = (MAX_COLS -1)}
+
                     public void checkRowAndColBounds(int r, int c, int elementType) {
                         // If at location 0 on the columns is 
                        
@@ -171,8 +182,7 @@
     // Checking Row & Column Boundaries.
     checkRowAndColBounds(r, c, SAND);
 
-    // If the element selected is sand and the element under it is EMPTY (blank), then it'll add sand to the
-    // row below the selected location for the sand. This is done with a loop somewhere else of course for it to act fluidy.
+    // Swap positions between sand and empty to move sand around
     if(sandGrid[r][c] == SAND 
          && sandGrid[rp1][c] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 8
             sandGrid[rp1][c]  =  SAND;
