@@ -139,7 +139,7 @@
                     //if(cp1 >= MAX_COLS){cp1 = 0;}
                     // Wrap from left to right
                    // if(cm1 <= 0){cm1 = (MAX_COLS -1)}
-
+//sdfsdfsdfsdf
                     public void checkRowAndColBounds(int r, int c, int elementType) {
                         // If at location 0 on the columns is 
                        
