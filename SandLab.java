@@ -111,38 +111,60 @@
                     public void step(){
                         
                         //insert code here
-                        int r = getRandomNumber(1, MAX_COLS); //Getting range from 1 to max cols, low chance for 0 and max
-                        int c = getRandomNumber(1, MAX_ROWS); //Getting range from 1 to max rows,  low chance for 0 and max
+                        int c = getRandomNumber(1, MAX_COLS); //Getting range from 1 to max cols, low chance for 0 and max
+                        int r = getRandomNumber(1, MAX_ROWS); //Getting range from 1 to max rows,  low chance for 0 and max
                         //ToDo
                         //This bit of code corrects for the out of bounds exceptions and allows us to draw. MB
-                        if(r > 219 || c > 179 ){
-                            r = 2;
-                            c = 2;
-                           //r = r - 219;
-                            //c = c - 179;
-                        }
+                        //What this does is force any out of bounds pixel to 2,2
+                        //if(r > 219 || c > 179 ){r = 2;  c = 2; }
+
+                        
+                        int rm1 = r - 1;
+                        int rp1 = r + 1;
+                        int cm1 = c - 1;
+                        int cp1 = c + 1; 
+                        // wrap from bottom to top
+                        if(rp1 >= MAX_ROWS-1 || rp1 > MAX_ROWS-1){rp1 = 0;}
+                        // wrap from top to bottom
+                        if(rm1 <= 0){rm1 = (MAX_ROWS -1);}
+                        // Wrap from right to left
+                        if(cp1 >= MAX_COLS-1 || cp1 > MAX_COLS-1){cp1 = 0;}
+                        // Wrap from left to right
+                        if(cm1 <= 0){cm1 = (MAX_COLS -1);}
+
+                        //Print Block
+
                         
                     modifySand(r, c);
                     modifyCreator(r, c);
                     //Below methods have not been written yet
                     //modifyDestroyer(r, c);
-                    //modifyWater(r, c);
+                    modifyWater(r, c);
                     //modifyOil(r, c);
-                    //modifyAir(r, c);
+                    modifyAir(r, c);
                     }//end of step
 
-                    // wrap from bottom to top
-                    //if(rp1 >= MAX_ROWS){rp1 = 0;}
-                    // wrap from top to bottom
-                   // if(rm1 <= 0){rm1 = (MAX_ROWS -1)}
-                    // Wrap from right to left
-                    //if(cp1 >= MAX_COLS){cp1 = 0;}
-                    // Wrap from left to right
-                   // if(cm1 <= 0){cm1 = (MAX_COLS -1)}
-//sdfsdfsdfsdf
                     public void checkRowAndColBounds(int r, int c, int elementType) {
                         // If at location 0 on the columns is 
-                       
+                            //IMPORTANT TO SIMPLIFY
+                        int rm1 = r - 1;
+                        int rp1 = r + 1;
+                        int cm1 = c - 1;
+                        int cp1 = c + 1; 
+                        if(r > MAX_ROWS){r = 1;}  
+                        // wrap from bottom to top
+                        if(rp1 >= MAX_ROWS-2){rp1 = 1;}
+                        // wrap from top to bottom
+                        if(rm1 <= 1){rm1 = (MAX_ROWS -2);}
+
+                        if(c > MAX_COLS){c = 1;}  
+                        // Wrap from right to left
+                        if(cp1 >= MAX_COLS-2){cp1 = 1;}
+                        // Wrap from left to right
+                        if(cm1 <= 1){cm1 = (MAX_COLS -2);}
+                        
+                    
+                        /*
                         if(sandGrid[r][0] == elementType && sandGrid[r][180] != METAL) {
                           sandGrid[r][0] = EMPTY;
                           sandGrid[r][180] = elementType;
@@ -159,7 +181,7 @@
                         } else {
                           sandGrid[220][c] = EMPTY;
                           sandGrid[0][c] = EMPTY; 
-                        }                       
+                        }             */          
                       }// end of check
                       
                       // This module will modify the sand element.
@@ -238,6 +260,120 @@
 
     } //end of if
 }// end of modifyCreator
+
+public void modifyWater(int r, int c) {
+    //let's simplify the code checks by doing the row and col checks in shorthand.
+    //IMPORTANT TO SIMPLIFY
+    int rm1 = r - 1;
+    int rp1 = r + 1;
+    int cm1 = c - 1;
+    int cp1 = c + 1;
+    int EVEN = 0;
+    int ODD = 0;
+    // This will get a random number from 0-10
+    int randomNumber = getRandomNumber(0, 10);
+    
+    // This will get the modulus, the modulus of 0 is an even number, the modulus of 1 is an odd number.
+    int modulus = randomNumber % 2;
+    if(modulus == 0){EVEN = 0;} else {ODD = 1;}
+    
+    // Checking Row & Column Boundaries.
+    checkRowAndColBounds(r, c, WATER);
+
+    // Swap positions between WATER and empty to move WATER around
+    if(sandGrid[r][c] == WATER 
+         && sandGrid[rp1][c] == EMPTY) { // This can almost randomly control the speed of the WATER falling which is cool : && randomNumber >= 8
+            sandGrid[rp1][c]  =  WATER; 
+            sandGrid[r][c]      = EMPTY;
+      // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
+      // min or max row has been reached.
+      if(sandGrid[rp1][c] == sandGrid[MAX_ROWS - 1][c]) {
+       sandGrid[rp1][c]              = EMPTY;
+       sandGrid[r - (MAX_ROWS - 2)][c] =  WATER; 
+      } // End of 2nd If-Statement.
+    } // End of 1st If-Statement.
+    
+    // This will adjust the WATER to pile instead of stack. It will check the right and the left locations. 
+    // If there is an open spot on either side itll end up being on the left or right side of the original position.
+    // This is to the left. 
+    // Make this happen less often by triggeting on random number
+    if(randomNumber >= 8){ // > 8 makes it stack again because there isn't a chance to move
+    if(sandGrid[r][c] == WATER 
+         && sandGrid[r][cm1] != WATER 
+         && sandGrid[r][cm1] != METAL
+         && modulus == EVEN) {
+      
+      sandGrid[r][cm1] =  WATER; 
+      sandGrid[r][c]     = EMPTY;
+         }
+      //This is to the right. 
+     else if(sandGrid[r][c] == SAND
+               && sandGrid[r][cp1] != WATER 
+               && sandGrid[r][cp1] != METAL
+               && modulus == EVEN) { 
+      
+     sandGrid[r][cp1] = WATER; 
+     sandGrid[r][c] = EMPTY;
+         } // End of If-Statement.
+        } // End of If-Statement. Random one
+  } // End of modify WATER module.
+  public void modifyAir(int r, int c) {
+    //let's simplify the code checks by doing the row and col checks in shorthand.
+    //IMPORTANT TO SIMPLIFY
+    int rm1 = r - 1;
+    int rp1 = r + 1;
+    int cm1 = c - 1;
+    int cp1 = c + 1;
+    int EVEN = 0;
+    int ODD = 0;
+    // This will get a random number from 0-10
+    int randomNumber = getRandomNumber(0, 10);
+    
+    // This will get the modulus, the modulus of 0 is an even number, the modulus of 1 is an odd number.
+    int modulus = randomNumber % 2;
+    if(modulus == 0){EVEN = 0;} else {ODD = 1;}
+    
+    // Checking Row & Column Boundaries.
+    checkRowAndColBounds(r, c, AIR);
+
+    // Swap positions between AIR and empty to move AIR around
+    if(sandGrid[r][c] == AIR 
+         && sandGrid[rm1][c] == EMPTY) { // This can almost randomly control the speed of the AIR falling which is cool : && randomNumber >= 8
+            sandGrid[rm1][c]  =  AIR ;
+            sandGrid[r][c]      = EMPTY;
+      // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
+      // min or max row has been reached.
+      if(sandGrid[rm1][c] == sandGrid[MAX_ROWS - 1][c]) {
+       sandGrid[rm1][c]              = EMPTY;
+       sandGrid[r - (MAX_ROWS - 2)][c] =  AIR; 
+      } // End of 2nd If-Statement.
+    } // End of 1st If-Statement.
+    
+    // This will adjust the AIR to pile instead of stack. It will check the right and the left locations. 
+    // If there is an open spot on either side itll end up being on the left or right side of the original position.
+    // This is to the left. 
+    // Make this happen less often by triggeting on random number
+    if(randomNumber >= 8){ // > 8 makes it stack again because there isn't a chance to move
+    if(sandGrid[r][c] == AIR 
+         && sandGrid[r][cp1] != AIR 
+         && sandGrid[r][cp1] != METAL
+         && modulus == EVEN) {
+      
+      sandGrid[r][cp1] =  AIR ;
+      sandGrid[r][c]     = EMPTY;
+         }
+      //This is to the right. 
+     else if(sandGrid[r][c] == SAND
+               && sandGrid[r][cm1] != AIR 
+               && sandGrid[r][cm1] != METAL
+               && modulus == EVEN) { 
+      
+     sandGrid[r][cm1] = AIR ;
+     sandGrid[r][c] = EMPTY;
+         } // End of If-Statement.
+        } // End of If-Statement. Random one
+  } // End of modify AIR module.
+
 
 
 //DO NOT modify anything below here!!! //////////////////////////////////////////////////////////////////////////////////////////////////////////
