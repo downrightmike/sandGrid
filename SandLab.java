@@ -186,7 +186,8 @@ public class SandLab{
     } // End of 1st If-Statement.
     
       if(sandGrid[r][c] == WATER 
-           && sandGrid[r][cm1] != WATER 
+           && sandGrid[r][cm1] != WATER
+           && sandGrid[r][cm1] != SAND 
            && sandGrid[r][cm1] != METAL
            && sandGrid[r][cm1] != CREATOR
            && modulus == EVEN) {
@@ -196,7 +197,8 @@ public class SandLab{
       }
       //This is to the right. 
       else if(sandGrid[r][c] == WATER
-                && sandGrid[r][cp1] != WATER 
+                && sandGrid[r][cp1] != WATER
+                && sandGrid[r][cp1] != SAND 
                 && sandGrid[r][cp1] != METAL
                 && sandGrid[r][cp1] != CREATOR
                 && modulus == EVEN) { 
@@ -204,6 +206,7 @@ public class SandLab{
         sandGrid[r][cp1] = WATER;
         sandGrid[r][c] = EMPTY;
       } // End of If-Statement.
+
   } // End of modify sand module.
   
   // This module will modify the sand element.
@@ -225,10 +228,16 @@ public class SandLab{
     
     // Checking Row & Column Boundaries.
     checkRowAndColBounds(r, c, SAND);
+
+    // Make sand drop below water
+    if (sandGrid[r][c] == SAND && sandGrid[rp1][c] == WATER) {
+      sandGrid[r][c] = WATER;
+      sandGrid[rp1][c] = SAND;
+    }
     
     // If the element selected is sand and the element under it is EMPTY (blank), then it'll add sand to the
     // row below the selected location for the sand. This is done with a loop somewhere else of course for it to act fluidy.
-    if(sandGrid[r][c] == SAND 
+    else if(sandGrid[r][c] == SAND 
          && sandGrid[rp1][c] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 8
       sandGrid[rp1][c]  =  SAND;
       sandGrid[r][c]      = EMPTY;
@@ -263,6 +272,7 @@ public class SandLab{
         sandGrid[r][c] = EMPTY;
       } // End of If-Statement.
     } // End of If-Statement. Random one
+
   } // End of modify sand module.
   
   //Modify creator
