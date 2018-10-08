@@ -257,11 +257,31 @@ public class SandLab{
       if(sandGrid[r][c] == SAND 
            && sandGrid[r][cm1] != SAND 
            && sandGrid[r][cm1] != METAL
+           && sandGrid[r][cm1] != WATER
            && modulus == EVEN) {
         
         sandGrid[r][cm1] =  SAND;
         sandGrid[r][c]     = EMPTY;
       }
+
+      // For moving underwater (left)
+      if(sandGrid[r][c] == SAND 
+           && sandGrid[r][cm1] == WATER
+           && modulus == EVEN) {
+        
+        sandGrid[r][cm1] =  SAND;
+        sandGrid[r][c]     = WATER;
+      }
+
+      // Moving underwater (right) 
+      else if(sandGrid[r][c] == SAND
+                && sandGrid[r][cp1] == WATER
+                && modulus == EVEN) { 
+        
+        sandGrid[r][cp1] = SAND;
+        sandGrid[r][c] = WATER;
+      } // End of If-Statement.
+
       //This is to the right. 
       else if(sandGrid[r][c] == SAND
                 && sandGrid[r][cp1] != SAND 
