@@ -145,8 +145,7 @@
                     }//end of step
 
                     public void checkRowAndColBounds(int r, int c, int elementType) {
-                        // If at location 0 on the columns is 
-                            //IMPORTANT TO SIMPLIFY
+                        // This is the route that prof wants us to go:
                         int rm1 = r - 1;
                         int rp1 = r + 1;
                         int cm1 = c - 1;
@@ -203,10 +202,14 @@
     
     // Checking Row & Column Boundaries.
     checkRowAndColBounds(r, c, SAND);
-
+    // Make sand drop below water
+    if (sandGrid[r][c] == SAND && sandGrid[rp1][c] == WATER) {
+        sandGrid[r][c] = WATER;
+        sandGrid[rp1][c] = SAND;
+      }
     // Swap positions between sand and empty to move sand around
-    if(sandGrid[r][c] == SAND 
-         && sandGrid[rp1][c] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 8
+    if(sandGrid[r][c] == SAND && sandGrid[r][c] == SAND 
+             && sandGrid[rp1][c] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 8
             sandGrid[rp1][c]  =  SAND;
             sandGrid[r][c]      = EMPTY;
       // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
@@ -225,6 +228,9 @@
     if(sandGrid[r][c] == SAND 
          && sandGrid[r][cm1] != SAND 
          && sandGrid[r][cm1] != METAL
+         && sandGrid[r][cm1] != WATER
+         && sandGrid[r][cm1] != CREATOR
+         && sandGrid[r][cm1] != DESTROYER
          && modulus == EVEN) {
       
       sandGrid[r][cm1] =  SAND;
@@ -234,6 +240,9 @@
      else if(sandGrid[r][c] == SAND
                && sandGrid[r][cp1] != SAND 
                && sandGrid[r][cp1] != METAL
+               && sandGrid[r][cm1] != WATER
+               && sandGrid[r][cm1] != CREATOR
+               && sandGrid[r][cm1] != DESTROYER
                && modulus == EVEN) { 
       
      sandGrid[r][cp1] = SAND;
@@ -254,12 +263,43 @@
     // Checking Row & Column Boundaries.
     checkRowAndColBounds(r, c, CREATOR);
 
-    if(sandGrid[r][c] == CREATOR && sandGrid[rp1][c] == EMPTY) { 
-       sandGrid[rp1][c]  =  sandGrid[rm1][c];
-       sandGrid[r][c]      = CREATOR;
-
-    } //end of if
+    // for sand
+    if(sandGrid[rm1][c] == SAND && sandGrid[r][c] == CREATOR && sandGrid[rp1][c] == EMPTY) { 
+        sandGrid[rp1][c]  =  sandGrid[rm1][c];
+        sandGrid[r][c]      = CREATOR;
+      } //end of sand if
+      
+      // for water
+      if(sandGrid[rm1][c] == WATER && sandGrid[r][c] == CREATOR && sandGrid[rp1][c] == EMPTY) { 
+        sandGrid[rp1][c]  =  sandGrid[rm1][c];
+        sandGrid[r][c]      = CREATOR;
+      } //end of water if
+      
+      // for oil
+      if(sandGrid[rm1][c] == OIL && sandGrid[r][c] == CREATOR && sandGrid[rp1][c] == EMPTY) { 
+        sandGrid[rp1][c]  =  sandGrid[rm1][c];
+        sandGrid[r][c]      = CREATOR;
+      }
 }// end of modifyCreator
+
+  //Modify destroyer
+  public void modifyDestroyer(int r, int c) {
+    //let's simplify the code checks by doing the row and col checks in shorthand.
+    //IMPORTANT TO SIMPLIFY
+    int rm1 = r - 1;
+    int rp1 = r + 1;
+    int cm1 = c - 1;
+    int cp1 = c + 1;
+    
+    // Checking Row & Column Boundaries.
+    checkRowAndColBounds(r, c, DESTROYER);
+    
+    if(sandGrid[r][c] == DESTROYER && sandGrid[rm1][c] != EMPTY && sandGrid[rm1][c] != METAL) { 
+      sandGrid[rm1][c]  =  EMPTY;
+      sandGrid[r][c]      = DESTROYER;
+      
+    } //end of if
+  }// end of modifyDestroyer
 
 public void modifyWater(int r, int c) {
     //let's simplify the code checks by doing the row and col checks in shorthand.
@@ -300,7 +340,10 @@ public void modifyWater(int r, int c) {
     if(randomNumber >= 8){ // > 8 makes it stack again because there isn't a chance to move
     if(sandGrid[r][c] == WATER 
          && sandGrid[r][cm1] != WATER 
+         && sandGrid[r][cm1] != SAND 
          && sandGrid[r][cm1] != METAL
+         && sandGrid[r][cm1] != CREATOR
+         && sandGrid[r][cm1] != DESTROYER
          && modulus == EVEN) {
       
       sandGrid[r][cm1] =  WATER; 
@@ -308,15 +351,20 @@ public void modifyWater(int r, int c) {
          }
       //This is to the right. 
      else if(sandGrid[r][c] == SAND
-               && sandGrid[r][cp1] != WATER 
-               && sandGrid[r][cp1] != METAL
-               && modulus == EVEN) { 
+                && sandGrid[r][cm1] != WATER 
+                && sandGrid[r][cm1] != SAND 
+                && sandGrid[r][cm1] != METAL
+                && sandGrid[r][cm1] != CREATOR
+                && sandGrid[r][cm1] != DESTROYER
+                && modulus == EVEN) { 
       
      sandGrid[r][cp1] = WATER; 
      sandGrid[r][c] = EMPTY;
          } // End of If-Statement.
         } // End of If-Statement. Random one
   } // End of modify WATER module.
+
+
   public void modifyAir(int r, int c) {
     //let's simplify the code checks by doing the row and col checks in shorthand.
     //IMPORTANT TO SIMPLIFY
@@ -357,6 +405,10 @@ public void modifyWater(int r, int c) {
     if(sandGrid[r][c] == AIR 
          && sandGrid[r][cp1] != AIR 
          && sandGrid[r][cp1] != METAL
+         && sandGrid[r][cm1] != SAND 
+         && sandGrid[r][cm1] != METAL
+         && sandGrid[r][cm1] != CREATOR
+         && sandGrid[r][cm1] != DESTROYER
          && modulus == EVEN) {
       
       sandGrid[r][cp1] =  AIR ;
@@ -366,6 +418,10 @@ public void modifyWater(int r, int c) {
      else if(sandGrid[r][c] == SAND
                && sandGrid[r][cm1] != AIR 
                && sandGrid[r][cm1] != METAL
+               && sandGrid[r][cm1] != SAND 
+               && sandGrid[r][cm1] != METAL
+               && sandGrid[r][cm1] != CREATOR
+               && sandGrid[r][cm1] != DESTROYER
                && modulus == EVEN) { 
       
      sandGrid[r][cm1] = AIR ;
