@@ -251,7 +251,7 @@
       sandGrid[r][c]     = EMPTY;
          }
       //This is to the right. 
-     else if(sandGrid[r][c] == SAND
+    if(sandGrid[r][c] == SAND
                && sandGrid[r][cp1] != SAND 
                && sandGrid[r][cp1] != METAL
                && sandGrid[r][cm1] != WATER
@@ -292,6 +292,12 @@
       // for oil
       if(sandGrid[rm1][c] == OIL && sandGrid[r][c] == CREATOR && sandGrid[rp1][c] == EMPTY) { 
         sandGrid[rp1][c]  =  sandGrid[rm1][c];
+        sandGrid[r][c]      = CREATOR;
+      }
+
+      // for air
+      if (sandGrid[rp1][c] == AIR && sandGrid[r][c] == CREATOR && sandGrid[rm1][c] == EMPTY) {
+        sandGrid[rm1][c]  =  sandGrid[rp1][c];
         sandGrid[r][c]      = CREATOR;
       }
 }// end of modifyCreator
