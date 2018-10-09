@@ -194,7 +194,7 @@ public class SandLab{
     int EVEN = 0;
     int ODD = 0;
     // This will get a random number from 0-10
-    int randomNumber = getRandomNumber(0, 10);
+    int randomNumber = getRandomNumber(0, 100);
     
     // This will get the modulus, the modulus of 0 is an even number, the modulus of 1 is an odd number.
     int modulus = randomNumber % 2;
@@ -250,9 +250,9 @@ public class SandLab{
     if(sandGrid[r][c] == SAND
                && sandGrid[r][cp1] != SAND 
                && sandGrid[r][cp1] != METAL
-               && sandGrid[r][cm1] != WATER
-               && sandGrid[r][cm1] != CREATOR
-               && sandGrid[r][cm1] != DESTROYER
+               && sandGrid[r][cp1] != WATER
+               && sandGrid[r][cp1] != CREATOR
+               && sandGrid[r][cp1] != DESTROYER
                && modulus == EVEN) { 
       
      sandGrid[r][cp1] = SAND;
@@ -331,7 +331,7 @@ public void modifyWater(int r, int c) {
     int EVEN = 0;
     int ODD = 0;
     // This will get a random number from 0-10
-    int randomNumber = getRandomNumber(0, 10);
+    int randomNumber = getRandomNumber(0, 100);
     
     // This will get the modulus, the modulus of 0 is an even number, the modulus of 1 is an odd number.
     int modulus = randomNumber % 2;
@@ -372,6 +372,7 @@ public void modifyWater(int r, int c) {
     // Make this happen less often by triggeting on random number
     if(randomNumber >= 8){ // > 8 makes it stack again because there isn't a chance to move
     if(sandGrid[r][c] == WATER 
+    && sandGrid[r][cm1] != EMPTY
          && sandGrid[r][cm1] != WATER 
          && sandGrid[r][cm1] != SAND 
          && sandGrid[r][cm1] != METAL
@@ -384,11 +385,12 @@ public void modifyWater(int r, int c) {
          }
       //This is to the right. 
      else if(sandGrid[r][c] == WATER
-                && sandGrid[r][cm1] != WATER 
-                && sandGrid[r][cm1] != SAND 
-                && sandGrid[r][cm1] != METAL
-                && sandGrid[r][cm1] != CREATOR
-                && sandGrid[r][cm1] != DESTROYER
+                && sandGrid[r][cp1] != WATER 
+                && sandGrid[r][cp1] != WATER 
+                && sandGrid[r][cp1] != SAND 
+                && sandGrid[r][cp1] != METAL
+                && sandGrid[r][cp1] != CREATOR
+                && sandGrid[r][cp1] != DESTROYER
                 && modulus == EVEN) { 
       
      sandGrid[r][cp1] = WATER; 
@@ -408,7 +410,7 @@ public void modifyWater(int r, int c) {
     int EVEN = 0;
     int ODD = 0;
     // This will get a random number from 0-10
-    int randomNumber = getRandomNumber(0, 10);
+    int randomNumber = getRandomNumber(0, 100);
     
     // This will get the modulus, the modulus of 0 is an even number, the modulus of 1 is an odd number.
     int modulus = randomNumber % 2;
@@ -449,10 +451,10 @@ public void modifyWater(int r, int c) {
     // If there is an open spot on either side itll end up being on the left or right side of the original position.
     // This is to the left. 
     // Make this happen less often by triggeting on random number
-    if(randomNumber >= 7){ // > 8 makes it stack again because there isn't a chance to move
+    if(randomNumber >= 8){ // > 8 makes it stack again because there isn't a chance to move
     if(sandGrid[r][c] == AIR 
-         && sandGrid[r][cp1] != AIR 
-         && sandGrid[r][cp1] != METAL
+         && sandGrid[r][cm1] != AIR 
+         && sandGrid[r][cm1] != METAL
          && sandGrid[r][cm1] != SAND 
          && sandGrid[r][cm1] != METAL
          && sandGrid[r][cm1] != CREATOR
