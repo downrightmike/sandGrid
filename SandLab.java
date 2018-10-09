@@ -203,13 +203,27 @@
     // Checking Row & Column Boundaries.
     checkRowAndColBounds(r, c, SAND);
     // Make sand drop below water
-    if (sandGrid[r][c] == SAND && sandGrid[rp1][c] == WATER) {
+    if (sandGrid[r][c] == SAND && sandGrid[rp1][c] == WATER
+        && sandGrid[rp1][c] != SAND
+        && sandGrid[rp1][c] != WATER
+        && sandGrid[rp1][c] != METAL
+        && sandGrid[rp1][c] != CREATOR
+        && sandGrid[rp1][c] != DESTROYER
+    //&& sandGrid[rp1][c] != OIL
+    ) {
         sandGrid[r][c] = WATER;
         sandGrid[rp1][c] = SAND;
       }
     // Swap positions between sand and empty to move sand around
     if(sandGrid[r][c] == SAND && sandGrid[r][c] == SAND 
-             && sandGrid[rp1][c] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 8
+             && sandGrid[rp1][c] == EMPTY
+             && sandGrid[rp1][c] != SAND
+             && sandGrid[rp1][c] != WATER
+             && sandGrid[rp1][c] != METAL
+             && sandGrid[rp1][c] != CREATOR
+             && sandGrid[rp1][c] != DESTROYER
+             //&& sandGrid[rp1][c] != OIL
+             ) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 8
             sandGrid[rp1][c]  =  SAND;
             sandGrid[r][c]      = EMPTY;
       // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
@@ -321,13 +335,26 @@ public void modifyWater(int r, int c) {
     checkRowAndColBounds(r, c, WATER);
 
     // Swap positions between WATER and empty to move WATER around
-    if(sandGrid[r][c] == WATER 
-         && sandGrid[rp1][c] == EMPTY) { // This can almost randomly control the speed of the WATER falling which is cool : && randomNumber >= 8
+    if(sandGrid[r][c] == WATER && sandGrid[rp1][c] == EMPTY
+        && sandGrid[rp1][c] != AIR
+        && sandGrid[rp1][c] != WATER
+        && sandGrid[rp1][c] != METAL
+        && sandGrid[rp1][c] != CREATOR
+        && sandGrid[rp1][c] != DESTROYER
+        //&& sandGrid[rp1][c] != OIL
+    ) { // This can almost randomly control the speed of the WATER falling which is cool : && randomNumber >= 8
             sandGrid[rp1][c]  =  WATER; 
             sandGrid[r][c]      = EMPTY;
       // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
       // min or max row has been reached.
-      if(sandGrid[rp1][c] == sandGrid[MAX_ROWS - 1][c]) {
+      if(sandGrid[rp1][c] == sandGrid[MAX_ROWS - 1][c]
+        && sandGrid[rp1][c] != AIR
+        && sandGrid[rp1][c] != WATER
+        && sandGrid[rp1][c] != METAL
+        && sandGrid[rp1][c] != CREATOR
+        && sandGrid[rp1][c] != DESTROYER
+        //&& sandGrid[rp1][c] != OIL
+        ) {
        sandGrid[rp1][c]              = EMPTY;
        sandGrid[r - (MAX_ROWS - 2)][c] =  WATER; 
       } // End of 2nd If-Statement.
@@ -350,7 +377,7 @@ public void modifyWater(int r, int c) {
       sandGrid[r][c]     = EMPTY;
          }
       //This is to the right. 
-     else if(sandGrid[r][c] == SAND
+     else if(sandGrid[r][c] == WATER
                 && sandGrid[r][cm1] != WATER 
                 && sandGrid[r][cm1] != SAND 
                 && sandGrid[r][cm1] != METAL
@@ -386,12 +413,27 @@ public void modifyWater(int r, int c) {
 
     // Swap positions between AIR and empty to move AIR around
     if(sandGrid[r][c] == AIR 
-         && sandGrid[rm1][c] == EMPTY) { // This can almost randomly control the speed of the AIR falling which is cool : && randomNumber >= 8
+         && sandGrid[rm1][c] == EMPTY
+         && sandGrid[rm1][c] != SAND
+         && sandGrid[rm1][c] != WATER
+         && sandGrid[rm1][c] != METAL
+         && sandGrid[rm1][c] != CREATOR
+         && sandGrid[rm1][c] != DESTROYER
+        //&& sandGrid[rm1][c] != OIL
+         
+         ) { // This can almost randomly control the speed of the AIR falling which is cool : && randomNumber >= 8
             sandGrid[rm1][c]  =  AIR ;
             sandGrid[r][c]      = EMPTY;
       // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
       // min or max row has been reached.
-      if(sandGrid[rm1][c] == sandGrid[MAX_ROWS - 1][c]) {
+      if(sandGrid[rm1][c] == sandGrid[MAX_ROWS - 1][c]
+        && sandGrid[rm1][c] != SAND
+        && sandGrid[rm1][c] != WATER
+        && sandGrid[rm1][c] != METAL
+        && sandGrid[rm1][c] != CREATOR
+        && sandGrid[rm1][c] != DESTROYER
+        //&& sandGrid[rm1][c] != OIL
+      ) {
        sandGrid[rm1][c]              = EMPTY;
        sandGrid[r - (MAX_ROWS - 2)][c] =  AIR; 
       } // End of 2nd If-Statement.
@@ -415,7 +457,7 @@ public void modifyWater(int r, int c) {
       sandGrid[r][c]     = EMPTY;
          }
       //This is to the right. 
-     else if(sandGrid[r][c] == SAND
+     else if(sandGrid[r][c] == AIR
                && sandGrid[r][cm1] != AIR 
                && sandGrid[r][cm1] != METAL
                && sandGrid[r][cm1] != SAND 
