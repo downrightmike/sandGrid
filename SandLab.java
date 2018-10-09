@@ -294,9 +294,8 @@
         sandGrid[rp1][c]  =  sandGrid[rm1][c];
         sandGrid[r][c]      = CREATOR;
       }
-
-      // for air
-      if (sandGrid[rp1][c] == AIR && sandGrid[r][c] == CREATOR && sandGrid[rm1][c] == EMPTY) {
+    // for air
+      if(sandGrid[rp1][c] == AIR && sandGrid[r][c] == CREATOR && sandGrid[rm1][c] == EMPTY) { 
         sandGrid[rm1][c]  =  sandGrid[rp1][c];
         sandGrid[r][c]      = CREATOR;
       }
@@ -319,6 +318,11 @@
       sandGrid[r][c]      = DESTROYER;
       
     } //end of if
+    else if(sandGrid[r][c] == DESTROYER && sandGrid[rp1][c] != EMPTY && sandGrid[rp1][c] != METAL) { 
+        sandGrid[rp1][c]  =  EMPTY;
+        sandGrid[r][c]      = DESTROYER;
+        
+      } //end of if
   }// end of modifyDestroyer
 
 public void modifyWater(int r, int c) {
