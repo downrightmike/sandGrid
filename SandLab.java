@@ -144,46 +144,57 @@ public class SandLab{
     modifyAir(r, c);
     }//end of step
 
-    public void checkRowAndColBounds(int r, int c, int elementType) {
-        // This is the route that prof wants us to go:
-        int rm1 = r - 1;
-        int rp1 = r + 1;
-        int cm1 = c - 1;
-        int cp1 = c + 1; 
-        if(r > MAX_ROWS){r = 1;}  
-        // wrap from bottom to top
-        if(rp1 >= MAX_ROWS-2){rp1 = 1;}
-        // wrap from top to bottom
-        if(rm1 <= 1){rm1 = (MAX_ROWS -2);}
+                    public void checkRowAndColBounds(int r, int c, int elementType) {
+                        // This is the route that prof wants us to go:
+                        int rm1 = r - 1;
+                        int rp1 = r + 1;
+                        int cm1 = c - 1;
+                        int cp1 = c + 1; 
+                        if(r == MAX_ROWS) {
+                            sandGrid[r][c] = EMPTY;
+                            sandGrid[0][c] =  elementType;
+                          } // End of 2nd If-Statement.
 
-        if(c > MAX_COLS){c = 1;}  
-        // Wrap from right to left
-        if(cp1 >= MAX_COLS-2){cp1 = 1;}
-        // Wrap from left to right
-        if(cm1 <= 1){cm1 = (MAX_COLS -2);}
-        
-    
-        /*
-        if(sandGrid[r][0] == elementType && sandGrid[r][180] != METAL) {
-          sandGrid[r][0] = EMPTY;
-          sandGrid[r][180] = elementType;
-        } else if(sandGrid[r][0] == elementType && sandGrid[r][179] != METAL) {
-            sandGrid[r][0] = EMPTY;
-            sandGrid[r][179] = elementType;
-        } else {
-            sandGrid[r][0] = EMPTY;
-            sandGrid[r][180] = EMPTY;
-        }
-        if(sandGrid[220][c] == elementType && sandGrid[0][c] != METAL) {
-          sandGrid[220][c] = EMPTY;
-          sandGrid[0][c] = elementType; 
-        } else {
-          sandGrid[220][c] = EMPTY;
-          sandGrid[0][c] = EMPTY; 
-        }             */          
-      }// end of check
-      
-      // This module will modify the sand element.
+                        if(c == MAX_COLS) {
+                            sandGrid[r][c] = EMPTY;
+                            sandGrid[r][0] =  elementType;
+                          } // End of 2nd If-Statement.  
+
+                        if(r > MAX_ROWS){r = 1;}  
+                        // wrap from bottom to top
+                        if(rp1 >= MAX_ROWS-1){rp1 = 1;}
+                        // wrap from top to bottom
+                        if(rm1 <= 1){rm1 = (MAX_ROWS -1);}
+
+                        if(c > MAX_COLS){c = 1;}  
+                        // Wrap from right to left
+                        if(cp1 >= MAX_COLS-1){cp1 = 1;}
+                        // Wrap from left to right
+                        if(cm1 <= 1){cm1 = (MAX_COLS -1);}
+                        
+                    
+                        /*
+                        if(sandGrid[r][0] == elementType && sandGrid[r][180] != METAL) {
+                          sandGrid[r][0] = EMPTY;
+                          sandGrid[r][180] = elementType;
+                        } else if(sandGrid[r][0] == elementType && sandGrid[r][179] != METAL) {
+                            sandGrid[r][0] = EMPTY;
+                            sandGrid[r][179] = elementType;
+                        } else {
+                            sandGrid[r][0] = EMPTY;
+                            sandGrid[r][180] = EMPTY;
+                        }
+                        
+                        if(sandGrid[220][c] == elementType && sandGrid[0][c] != METAL) {
+                          sandGrid[220][c] = EMPTY;
+                          sandGrid[0][c] = elementType; 
+                        } else {
+                          sandGrid[220][c] = EMPTY;
+                          sandGrid[0][c] = EMPTY; 
+                        }      */            
+                      }// end of check
+                      
+                      // This module will modify the sand element.
   public void modifySand(int r, int c) {
     //let's simplify the code checks by doing the row and col checks in shorthand.
     //IMPORTANT TO SIMPLIFY
