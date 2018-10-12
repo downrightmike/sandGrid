@@ -383,7 +383,6 @@ public void modifyWater(int r, int c) {
     // Make this happen less often by triggeting on random number
     if(randomNumber >= 8){ // > 8 makes it stack again because there isn't a chance to move
     if(sandGrid[r][c] == WATER 
-    && sandGrid[r][cm1] != EMPTY
          && sandGrid[r][cm1] != WATER 
          && sandGrid[r][cm1] != SAND 
          && sandGrid[r][cm1] != METAL
@@ -395,7 +394,7 @@ public void modifyWater(int r, int c) {
       sandGrid[r][c]     = EMPTY;
          }
       //This is to the right. 
-     else if(sandGrid[r][c] == WATER
+     if(sandGrid[r][c] == WATER
                 && sandGrid[r][cp1] != WATER 
                 && sandGrid[r][cp1] != WATER 
                 && sandGrid[r][cp1] != SAND 
