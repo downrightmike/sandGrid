@@ -381,19 +381,21 @@ public void modifyWater(int r, int c) {
     // If there is an open spot on either side itll end up being on the left or right side of the original position.
     // This is to the left. 
     // Make this happen less often by triggeting on random number
-    if(randomNumber >= 8){ // > 8 makes it stack again because there isn't a chance to move
-    if(sandGrid[r][c] == WATER 
-         && sandGrid[r][cm1] != WATER 
-         && sandGrid[r][cm1] != SAND 
-         && sandGrid[r][cm1] != METAL
-         && sandGrid[r][cm1] != CREATOR
-         && sandGrid[r][cm1] != DESTROYER
-         && modulus == EVEN) {
-      
-      sandGrid[r][cm1] =  WATER; 
-      sandGrid[r][c]     = EMPTY;
-         }
-      //This is to the right. 
+    if(randomNumber > 50){ // > 8 makes it stack again because there isn't a chance to move
+      if(sandGrid[r][c] == WATER 
+          && sandGrid[r][cm1] != WATER 
+          && sandGrid[r][cm1] != SAND 
+          && sandGrid[r][cm1] != METAL
+          && sandGrid[r][cm1] != CREATOR
+          && sandGrid[r][cm1] != DESTROYER
+          && modulus == EVEN) {
+        
+        sandGrid[r][cm1] =  WATER; 
+        sandGrid[r][c]     = EMPTY;
+      }
+    } // End of If-Statement. Random one
+      //This is to the right.
+    if(randomNumber < 50) { 
      if(sandGrid[r][c] == WATER
                 && sandGrid[r][cp1] != WATER 
                 && sandGrid[r][cp1] != WATER 
