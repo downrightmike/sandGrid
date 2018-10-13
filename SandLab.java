@@ -262,6 +262,13 @@ public class SandLab{
         sandGrid[r][cm1] =  SAND;
         sandGrid[r][c]     = EMPTY;
         }
+
+        // Else if for water movement left
+        else if(sandGrid[r][c] == SAND && sandGrid[r][cm1] == WATER) {
+          sandGrid[r][cm1] =  SAND;
+          sandGrid[r][c]     = WATER;
+        }
+
       }
         //This is to the right.
       if(randomNumber > 50){
@@ -276,6 +283,13 @@ public class SandLab{
         sandGrid[r][cp1] = SAND;
         sandGrid[r][c] = EMPTY;
         } // End of If-Statement.
+
+        // Else if for water movement right
+        if(sandGrid[r][c] == SAND && sandGrid[r][cp1] == WATER) {
+          sandGrid[r][cp1] =  SAND;
+          sandGrid[r][c]     = WATER;
+        }
+
       } // End of If-Statement. Random one
     }
 
