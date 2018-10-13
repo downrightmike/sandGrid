@@ -140,7 +140,7 @@ public class SandLab{
     //Below methods have not been written yet
     //modifyDestroyer(r, c);
     modifyWater(r, c);
-    //modifyOil(r, c);
+    modifyOil(r, c);
     modifyAir(r, c);
     }//end of step
 
@@ -381,7 +381,7 @@ public void modifyWater(int r, int c) {
         && sandGrid[rp1][c] != METAL
         && sandGrid[rp1][c] != CREATOR
         && sandGrid[rp1][c] != DESTROYER
-        //&& sandGrid[rp1][c] != OIL
+        && sandGrid[rp1][c] != OIL
     ) { // This can almost randomly control the speed of the WATER falling which is cool : && randomNumber >= 8
             sandGrid[rp1][c]  =  WATER; 
             sandGrid[r][c]      = EMPTY;
@@ -514,6 +514,57 @@ public void modifyWater(int r, int c) {
          } // End of If-Statement.
         } // End of If-Statement. Random one
   } // End of modify AIR module.
+
+  public void modifyOil(int r, int c) {
+    //let's simplify the code checks by doing the row and col checks in shorthand.
+    //IMPORTANT TO SIMPLIFY
+    int rm1 = r - 1;
+    int rp1 = r + 1;
+    int cm1 = c - 1;
+    int cp1 = c + 1;
+
+    // Checking Row & Column Boundaries.
+    checkRowAndColBounds(r, c, OIL);
+
+    // This will get a random number from 0-100
+    int randomNumber = getRandomNumber(0, 100);
+    
+    // Swap up and down for empty space
+    if(sandGrid[r][c] == OIL && sandGrid[rp1][c] == EMPTY) {
+      sandGrid[rp1][c] = OIL;
+      sandGrid[r][c] = EMPTY;
+    }
+
+    // If there is an open spot on either side itll end up being on the left or right side of the original position.
+    // This is to the left. 
+    // Make this happen less often by triggeting on random number
+    if(randomNumber > 50){ // > 8 makes it stack again because there isn't a chance to move
+      if(sandGrid[r][c] == OIL 
+          && sandGrid[r][cm1] != WATER 
+          && sandGrid[r][cm1] != SAND 
+          && sandGrid[r][cm1] != METAL
+          && sandGrid[r][cm1] != CREATOR
+          && sandGrid[r][cm1] != DESTROYER) {
+        
+        sandGrid[r][cm1] =  OIL; 
+        sandGrid[r][c]     = EMPTY;
+      }
+    } // End of If-Statement. Random one
+      //This is to the right.
+    if(randomNumber < 50) { 
+     if(sandGrid[r][c] == OIL
+                && sandGrid[r][cp1] != WATER  
+                && sandGrid[r][cp1] != SAND 
+                && sandGrid[r][cp1] != METAL
+                && sandGrid[r][cp1] != CREATOR
+                && sandGrid[r][cp1] != DESTROYER) { 
+      
+     sandGrid[r][cp1] = OIL; 
+     sandGrid[r][c] = EMPTY;
+         } // End of If-Statement.
+        } // End of If-Statement. Random one
+
+  }
 
 
 
