@@ -1,6 +1,6 @@
-/* A. StudentName
+/*
 * Downrightmike
-* 
+* JohnnyPoblano
 *
 *TODO: 
     Particles need to wrap
@@ -407,7 +407,8 @@ public void modifyWater(int r, int c) {
     if(randomNumber > 50){ // > 8 makes it stack again because there isn't a chance to move
       if(sandGrid[r][c] == WATER 
           && sandGrid[r][cm1] != WATER 
-          && sandGrid[r][cm1] != SAND 
+          && sandGrid[r][cm1] != SAND
+          && sandGrid[r][cm1] != OIL 
           && sandGrid[r][cm1] != METAL
           && sandGrid[r][cm1] != CREATOR
           && sandGrid[r][cm1] != DESTROYER
@@ -421,7 +422,7 @@ public void modifyWater(int r, int c) {
     if(randomNumber < 50) { 
      if(sandGrid[r][c] == WATER
                 && sandGrid[r][cp1] != WATER 
-                && sandGrid[r][cp1] != WATER 
+                && sandGrid[r][cp1] != OIL 
                 && sandGrid[r][cp1] != SAND 
                 && sandGrid[r][cp1] != METAL
                 && sandGrid[r][cp1] != CREATOR
@@ -535,13 +536,20 @@ public void modifyWater(int r, int c) {
       sandGrid[r][c] = EMPTY;
     }
 
+    // Swap up and down for water
+    if(sandGrid[r][c] == OIL && sandGrid[rm1][c] == WATER) {
+      sandGrid[rm1][c] = OIL;
+      sandGrid[r][c] = WATER;
+    }
+
     // If there is an open spot on either side itll end up being on the left or right side of the original position.
     // This is to the left. 
     // Make this happen less often by triggeting on random number
     if(randomNumber > 50){ // > 8 makes it stack again because there isn't a chance to move
       if(sandGrid[r][c] == OIL 
           && sandGrid[r][cm1] != WATER 
-          && sandGrid[r][cm1] != SAND 
+          && sandGrid[r][cm1] != SAND
+          && sandGrid[r][cm1] != OIL 
           && sandGrid[r][cm1] != METAL
           && sandGrid[r][cm1] != CREATOR
           && sandGrid[r][cm1] != DESTROYER) {
@@ -554,7 +562,8 @@ public void modifyWater(int r, int c) {
     if(randomNumber < 50) { 
      if(sandGrid[r][c] == OIL
                 && sandGrid[r][cp1] != WATER  
-                && sandGrid[r][cp1] != SAND 
+                && sandGrid[r][cp1] != SAND
+                && sandGrid[r][cp1] != OIL 
                 && sandGrid[r][cp1] != METAL
                 && sandGrid[r][cp1] != CREATOR
                 && sandGrid[r][cp1] != DESTROYER) { 
