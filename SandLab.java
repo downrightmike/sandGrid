@@ -245,6 +245,11 @@ public class SandLab{
     if (sandGrid[r][c] == SAND && sandGrid[rp1][c] == SAND && sandGrid[rp1][cm1] == SAND && sandGrid[rp1][cp1] == SAND) {
       // Do nothing. Stack as a pyramid
     }
+
+    // Improve sand code so it doesn't move around endlessly until it piles up on itself
+    else if (sandGrid[r][c] == SAND && sandGrid[rp1][c] == METAL) {
+      // Do nothing.
+    }
     
     else {
       // This is to the left. 
