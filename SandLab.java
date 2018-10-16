@@ -219,6 +219,13 @@ public class SandLab{
         sandGrid[r][c] = WATER;
         sandGrid[rp1][c] = SAND;
       }
+
+    // Make sand drop below oil
+    if (sandGrid[r][c] == SAND && sandGrid[rp1][c] == OIL) {
+      sandGrid[r][c] = OIL;
+      sandGrid[rp1][c] = SAND;
+    }
+
     // Swap positions between sand and empty to move sand around
     if(sandGrid[r][c] == SAND && sandGrid[rp1][c] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 8
             sandGrid[rp1][c]  =  SAND;
