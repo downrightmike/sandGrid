@@ -237,6 +237,11 @@ public class SandLab{
             sandGrid[r][c]      = EMPTY;
     } // End of 1st If-Statement.
     
+    if(sandGrid[r][c] == SAND && sandGrid[rp1][c] == OIL) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 8
+      sandGrid[rp1][c]  =  SAND;
+      sandGrid[r][c]      = OIL;
+} // End of 1st If-Statement.
+
     // This will adjust the sand to pile instead of stack. It will check the right and the left locations. 
     // If there is an open spot on either side itll end up being on the left or right side of the original position.
     
@@ -257,6 +262,7 @@ public class SandLab{
         if(sandGrid[r][c] == SAND 
           && sandGrid[r][cm1] != SAND 
           && sandGrid[r][cm1] != METAL
+          && sandGrid[r][cm1] != OIL
           && sandGrid[r][cm1] != WATER
           && sandGrid[r][cm1] != CREATOR
           && sandGrid[r][cm1] != DESTROYER
@@ -271,6 +277,11 @@ public class SandLab{
           sandGrid[r][cm1] =  SAND;
           sandGrid[r][c]     = WATER;
         }
+        //Sand movement in oil left
+        else if(sandGrid[r][c] == SAND && sandGrid[r][cm1] == OIL) {
+          sandGrid[r][cm1] =  SAND;
+          sandGrid[r][c]     = OIL;
+        }
 
       }
         //This is to the right.
@@ -278,6 +289,7 @@ public class SandLab{
         if(sandGrid[r][c] == SAND
                   && sandGrid[r][cp1] != SAND 
                   && sandGrid[r][cp1] != METAL
+                  && sandGrid[r][cp1] != OIL
                   && sandGrid[r][cp1] != WATER
                   && sandGrid[r][cp1] != CREATOR
                   && sandGrid[r][cp1] != DESTROYER
@@ -291,6 +303,11 @@ public class SandLab{
         if(sandGrid[r][c] == SAND && sandGrid[r][cp1] == WATER) {
           sandGrid[r][cp1] =  SAND;
           sandGrid[r][c]     = WATER;
+        }
+        // If for Sand in Oil movement right
+        if(sandGrid[r][c] == SAND && sandGrid[r][cp1] == OIL) {
+          sandGrid[r][cp1] =  SAND;
+          sandGrid[r][c]     = OIL;
         }
 
       } // End of If-Statement. Random one
