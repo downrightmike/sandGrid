@@ -410,6 +410,13 @@ public void modifyWater(int r, int c) {
     // This is to the left. 
     // Make this happen less often by triggeting on random number
     if(randomNumber > 50){ // > 8 makes it stack again because there isn't a chance to move
+
+      // Oil/Water movement - LEFT
+      if (sandGrid[r][c] == WATER && sandGrid[r][cm1] == OIL) {
+        sandGrid[r][cm1] = WATER; 
+        sandGrid[r][c] = OIL;
+      }
+
       if(sandGrid[r][c] == WATER 
           && sandGrid[r][cm1] != WATER 
           && sandGrid[r][cm1] != SAND
@@ -425,6 +432,13 @@ public void modifyWater(int r, int c) {
     } // End of If-Statement. Random one
       //This is to the right.
     if(randomNumber < 50) { 
+
+      // Oil/Water movement - RIGHT
+      if (sandGrid[r][c] == WATER && sandGrid[r][cp1] == OIL) {
+        sandGrid[r][cp1] = WATER; 
+        sandGrid[r][c] = OIL;
+      }
+      
      if(sandGrid[r][c] == WATER
                 && sandGrid[r][cp1] != WATER 
                 && sandGrid[r][cp1] != OIL 
