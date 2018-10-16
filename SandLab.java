@@ -99,7 +99,7 @@ public class SandLab{
         if(sandGrid[i][j] == DESTROYER){display.setColor(i,j,Color.green);}
         if(sandGrid[i][j] == WATER){display.setColor(i,j,Color.blue);}
         if(sandGrid[i][j] == OIL){display.setColor(i,j,Color.white);}
-        if(sandGrid[i][j] == AIR){display.setColor(i,j,Color.red);}
+        if(sandGrid[i][j] == AIR){display.setColor(i,j,Color.lightGray);}
             } // End of Columns For-Loop.
         } // End of Rows For-Loop.
     }
@@ -481,7 +481,7 @@ public void modifyWater(int r, int c) {
 
 
   public void modifyAir(int r, int c) {
-    //let's simplify the code checks by doing the row and col checks in shorthand.
+       //let's simplify the code checks by doing the row and col checks in shorthand.
     //IMPORTANT TO SIMPLIFY
     int rm1 = r - 1;
     int rp1 = r + 1;
@@ -500,28 +500,26 @@ public void modifyWater(int r, int c) {
     checkRowAndColBounds(r, c, AIR);
 
     // Swap positions between AIR and empty to move AIR around
-    if(sandGrid[r][c] == AIR 
-         && sandGrid[rm1][c] == EMPTY
-         && sandGrid[rm1][c] != SAND
-         && sandGrid[rm1][c] != WATER
-         && sandGrid[rm1][c] != METAL
-         && sandGrid[rm1][c] != CREATOR
-         && sandGrid[rm1][c] != DESTROYER
-        //&& sandGrid[rm1][c] != OIL
-         
-         ) { // This can almost randomly control the speed of the AIR falling which is cool : && randomNumber >= 8
-            sandGrid[rm1][c]  =  AIR ;
-            sandGrid[r][c]      = EMPTY;
-      // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
-      // min or max row has been reached.
-      if(sandGrid[rm1][c] == sandGrid[MAX_ROWS - 1][c]
-        && sandGrid[rm1][c] != SAND
+    if(sandGrid[r][c] == AIR && sandGrid[rm1][c] == EMPTY
+        && sandGrid[rm1][c] != AIR
         && sandGrid[rm1][c] != WATER
         && sandGrid[rm1][c] != METAL
         && sandGrid[rm1][c] != CREATOR
         && sandGrid[rm1][c] != DESTROYER
-        //&& sandGrid[rm1][c] != OIL
-      ) {
+        && sandGrid[rm1][c] != OIL
+    ) { // This can almost randomly control the speed of the AIR falling which is cool : && randomNumber >= 8
+            sandGrid[rm1][c]  =  AIR; 
+            sandGrid[r][c]      = EMPTY;
+      // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
+      // min or max row has been reached.
+      if(sandGrid[rm1][c] == sandGrid[MAX_ROWS - 1][c]
+        && sandGrid[rm1][c] != AIR
+        && sandGrid[rm1][c] != WATER
+        && sandGrid[rm1][c] != METAL
+        && sandGrid[rm1][c] != CREATOR
+        && sandGrid[rm1][c] != DESTROYER
+        //&& sandGrid[rp1][c] != OIL
+        ) {
        sandGrid[rm1][c]              = EMPTY;
        sandGrid[r - (MAX_ROWS - 2)][c] =  AIR; 
       } // End of 2nd If-Statement.
@@ -531,30 +529,46 @@ public void modifyWater(int r, int c) {
     // If there is an open spot on either side itll end up being on the left or right side of the original position.
     // This is to the left. 
     // Make this happen less often by triggeting on random number
-    if(randomNumber >= 8){ // > 8 makes it stack again because there isn't a chance to move
-    if(sandGrid[r][c] == AIR 
-         && sandGrid[r][cm1] != AIR 
-         && sandGrid[r][cm1] != METAL
-         && sandGrid[r][cm1] != SAND 
-         && sandGrid[r][cm1] != METAL
-         && sandGrid[r][cm1] != CREATOR
-         && sandGrid[r][cm1] != DESTROYER
-         && modulus == EVEN) {
+    if(randomNumber > 50){ // > 8 makes it stack again because there isn't a chance to move
+
+      // Oil/AIR movement - LEFT
+      if (sandGrid[r][c] == AIR && sandGrid[r][cp1] == OIL) {
+        sandGrid[r][cp1] = AIR; 
+        sandGrid[r][c] = OIL;
+      }
+
+      if(sandGrid[r][c] == AIR 
+          && sandGrid[r][cp1] != AIR 
+          && sandGrid[r][cp1] != SAND
+          && sandGrid[r][cp1] != OIL 
+          && sandGrid[r][cp1] != METAL
+          && sandGrid[r][cp1] != CREATOR
+          && sandGrid[r][cp1] != DESTROYER
+          && modulus == EVEN) {
+        
+        sandGrid[r][cp1] =  AIR; 
+        sandGrid[r][c]     = EMPTY;
+      }
+    } // End of If-Statement. Random one
+      //This is to the right.
+    if(randomNumber < 50) { 
+
+      // Oil/AIR movement - RIGHT
+      if (sandGrid[r][c] == AIR && sandGrid[r][cm1] == OIL) {
+        sandGrid[r][cm1] = AIR; 
+        sandGrid[r][c] = OIL;
+      }
       
-      sandGrid[r][cp1] =  AIR ;
-      sandGrid[r][c]     = EMPTY;
-         }
-      //This is to the right. 
-     else if(sandGrid[r][c] == AIR
-               && sandGrid[r][cp1] != AIR 
-               && sandGrid[r][cp1] != METAL
-               && sandGrid[r][cp1] != SAND 
-               && sandGrid[r][cp1] != METAL
-               && sandGrid[r][cp1] != CREATOR
-               && sandGrid[r][cp1] != DESTROYER
-               && modulus == EVEN) { 
+     if(sandGrid[r][c] == AIR
+                && sandGrid[r][cm1] != AIR 
+                && sandGrid[r][cm1] != OIL 
+                && sandGrid[r][cm1] != SAND 
+                && sandGrid[r][cm1] != METAL
+                && sandGrid[r][cm1] != CREATOR
+                && sandGrid[r][cm1] != DESTROYER
+                && modulus == EVEN) { 
       
-     sandGrid[r][cp1] = AIR ;
+     sandGrid[r][cm1] = AIR; 
      sandGrid[r][c] = EMPTY;
          } // End of If-Statement.
         } // End of If-Statement. Random one
