@@ -26,8 +26,7 @@ public class SandLab{
     public static final int METAL = 1;
     public static final int SAVEFILE  = 2;  
     public static final int SAND = 3;
-    public static final int CREATOR = 4;
-    //Below particles have no functions yet 
+    public static final int CREATOR = 4; 
     public static final int DESTROYER = 5;
     public static final int WATER = 6;
     public static final int OIL = 7;
@@ -54,8 +53,7 @@ public class SandLab{
         names[METAL] = "Metal";
         names[SAND] = "Sand";
         names[SAVEFILE] = "SaveFile"; 
-        names[CREATOR] = "Creator";
-        //Below particles have no functions yet 
+        names[CREATOR] = "Creator"; 
         names[DESTROYER] = "Destroyer"; 
         names[WATER] = "Water"; 
         names[OIL] = "Oil"; 
@@ -92,16 +90,16 @@ public class SandLab{
         //insert code here
         for(int i = 0; i < MAX_ROWS; i++) {     // Used to loop through rows.
             for(int j =0; j < MAX_COLS - 1; j++) { // Used to loop through columns.
-        if(sandGrid[i][j] == 0){display.setColor(i,j,Color.black);}
-        if(sandGrid[i][j] == 1){display.setColor(i,j,Color.gray);}
+        if(sandGrid[i][j] == EMPTY){display.setColor(i,j,Color.black);}
+        if(sandGrid[i][j] == METAL){display.setColor(i,j,Color.gray);}
         // #2 is being used by the save file
-        if(sandGrid[i][j] == 3){display.setColor(i,j,Color.yellow);}
-        if(sandGrid[i][j] == 4){display.setColor(i,j,Color.pink);}
+        if(sandGrid[i][j] == SAND){display.setColor(i,j,Color.yellow);}
+        if(sandGrid[i][j] == CREATOR){display.setColor(i,j,Color.pink);}
         //Below particles have no functions yet
-        if(sandGrid[i][j] == 5){display.setColor(i,j,Color.green);}
-        if(sandGrid[i][j] == 6){display.setColor(i,j,Color.blue);}
-        if(sandGrid[i][j] == 7){display.setColor(i,j,Color.white);}
-        if(sandGrid[i][j] == 8){display.setColor(i,j,Color.red);}
+        if(sandGrid[i][j] == DESTROYER){display.setColor(i,j,Color.green);}
+        if(sandGrid[i][j] == WATER){display.setColor(i,j,Color.blue);}
+        if(sandGrid[i][j] == OIL){display.setColor(i,j,Color.white);}
+        if(sandGrid[i][j] == AIR){display.setColor(i,j,Color.red);}
             } // End of Columns For-Loop.
         } // End of Rows For-Loop.
     }
