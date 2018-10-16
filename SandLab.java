@@ -137,8 +137,7 @@ public class SandLab{
         
     modifySand(r, c);
     modifyCreator(r, c);
-    //Below methods have not been written yet
-    //modifyDestroyer(r, c);
+    modifyDestroyer(r, c);
     modifyWater(r, c);
     modifyOil(r, c);
     modifyAir(r, c);
@@ -355,16 +354,26 @@ public class SandLab{
     // Checking Row & Column Boundaries.
     checkRowAndColBounds(r, c, DESTROYER);
     
-    if(sandGrid[r][c] == DESTROYER && sandGrid[rm1][c] != EMPTY && sandGrid[rm1][c] != METAL) { 
-      sandGrid[rm1][c]  =  EMPTY;
+    // Destroy above element
+    if(sandGrid[r][c] == DESTROYER 
+    && sandGrid[rm1][c] != EMPTY 
+    && sandGrid[rm1][c] != METAL
+    && sandGrid[rm1][c] != DESTROYER) 
+    { 
+      sandGrid[rm1][c]  =  AIR;
       sandGrid[r][c]      = DESTROYER;
-      
-    } //end of if
-    else if(sandGrid[r][c] == DESTROYER && sandGrid[rp1][c] != EMPTY && sandGrid[rp1][c] != METAL) { 
+    }
+
+    // Destroy below element
+    else if(sandGrid[r][c] == DESTROYER 
+    && sandGrid[rp1][c] != EMPTY 
+    && sandGrid[rp1][c] != METAL
+    && sandGrid[rp1][c] != DESTROYER) 
+    { 
         sandGrid[rp1][c]  =  EMPTY;
         sandGrid[r][c]      = DESTROYER;
-        
-      } //end of if
+    }
+
   }// end of modifyDestroyer
 
 public void modifyWater(int r, int c) {
