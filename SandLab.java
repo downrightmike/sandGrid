@@ -223,25 +223,19 @@ public class SandLab{
       sandGrid[rp1][c] = SAND;
     }
 
+    // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
+    // min or max row has been reached.
+    if (sandGrid[r][c] != SAND) {}
+    else if ((sandGrid[r][c] == SAND) && r == MAX_ROWS-2 || r == MAX_ROWS-1 || r == MAX_ROWS || r == MAX_ROWS+1) {
+      sandGrid[r][c] = EMPTY;
+      sandGrid[1][c] =  SAND;
+    }
+
     // Swap positions between sand and empty to move sand around
     if(sandGrid[r][c] == SAND && sandGrid[rp1][c] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 8
             sandGrid[rp1][c]  =  SAND;
             sandGrid[r][c]      = EMPTY;
-
-      // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
-      // min or max row has been reached.
-      if(r == MAX_ROWS-1) {
-        sandGrid[r][c] = EMPTY;
-        sandGrid[0][c] =  SAND;
-      } // End of 2nd If-Statement.
-
     } // End of 1st If-Statement.
-
-    // Get sand to fall if its at the top
-    if (sandGrid[0][c] == SAND) {
-      sandGrid[0][c]  =  EMPTY;
-      sandGrid[1][c]  = SAND;
-    }
     
     // This will adjust the sand to pile instead of stack. It will check the right and the left locations. 
     // If there is an open spot on either side itll end up being on the left or right side of the original position.
