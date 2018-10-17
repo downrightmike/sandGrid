@@ -230,7 +230,16 @@ public class SandLab{
       sandGrid[r][c] = EMPTY;
       sandGrid[1][c] =  SAND;
     }
-
+    //warpping for right to left
+    if (sandGrid[r][c] != SAND) {}
+    else if ((sandGrid[r][c] == SAND) && c == MAX_COLS-2 || c == MAX_COLS-1 || c == MAX_COLS || c == MAX_COLS+1) {
+      sandGrid[r][c] = EMPTY;
+      sandGrid[r][2] =  SAND;//had to use 2 to allow sand enough room to move
+    }
+    else if ((sandGrid[r][c] == SAND) && (c == 0 || c == -1 || c == 0 || c == 1) ){
+      sandGrid[r][c] = EMPTY;
+      sandGrid[r][MAX_COLS-3] =  SAND;//-3 allows sand's falling behavior to work and not get stuck on right MAX_COLS
+    }
     // Swap positions between sand and empty to move sand around
     if(sandGrid[r][c] == SAND && sandGrid[rp1][c] == EMPTY) { // This can almost randomly control the speed of the sand falling which is cool : && randomNumber >= 8
             sandGrid[rp1][c]  =  SAND;
@@ -363,6 +372,9 @@ public class SandLab{
     // Checking Row & Column Boundaries.
     checkRowAndColBounds(r, c, DESTROYER);
     
+//rmx  Add a function to swap air with the next empty space above the current block of particles
+//loop through rows until empty then swap
+
     // Destroy above element
     if(sandGrid[r][c] == DESTROYER 
     && sandGrid[rm1][c] != EMPTY 
