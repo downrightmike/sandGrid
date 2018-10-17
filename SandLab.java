@@ -380,8 +380,15 @@ public class SandLab{
     && sandGrid[rm1][c] != EMPTY 
     && sandGrid[rm1][c] != METAL
     && sandGrid[rm1][c] != DESTROYER) 
-    { 
-      sandGrid[rm1][c]  =  AIR;
+    { // this is to calculate out where to put the air vapor after particle is destroyed
+      int rowCount = 5; 
+      for(int i = 0; i < MAX_ROWS -r; i++){
+        if(sandGrid[r - rowCount][c] != EMPTY) 
+        rowCount++;
+        else break;
+      }
+      sandGrid[r - rowCount][c]  =  AIR;
+      sandGrid[rm1][c]  =  EMPTY;
       sandGrid[r][c]      = DESTROYER;
     }
 
