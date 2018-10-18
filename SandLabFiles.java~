@@ -67,7 +67,7 @@ public class SandLabFiles {
          br.close(); 
       }
       catch (Exception e) {
-         System.err.println("Error reading file. Ending program.");
+         System.err.println("Error writing file. Ending program.");
          System.exit(-1);
       } 
       return grid;      
