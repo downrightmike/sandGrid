@@ -78,10 +78,14 @@ public class SandLab{
 
       if (tool == SAVEFILE) {
             //SandLabFiles.writeFile(grid, NEW_FILE_NAME);  //uncomment this later to save your file...
-            // Lines below are from an older version that may not work out of the box
-            // SandLabFiles.setRowsAndCols(MAX_ROWS, MAX_COLS);
-            // SandLabFiles.writeFile(sandGrid, NEW_FILE_NAME); 
           }
+         /* if (tool == SAVEFILE) {
+            //   SandLabFiles.setRowsAndCols(MAX_ROWS, MAX_COLS);
+            //   SandLabFiles.writeFile(sandGrid, NEW_FILE_NAME);
+           //  } else {
+               sandGrid[row][col] = tool;
+             } 
+             */
     }
     
     //copies each element of grid into the display
@@ -110,13 +114,7 @@ public class SandLab{
         
         //insert code here
         int c = getRandomNumber(1, MAX_COLS); //Getting range from 1 to max cols, low chance for 0 and max
-        int r = getRandomNumber(1, MAX_ROWS); //Getting range from 1 to max rows,  low chance for 0 and max
-        //ToDo
-        //This bit of code corrects for the out of bounds exceptions and allows us to draw. MB
-        //What this does is force any out of bounds pixel to 2,2
-        //if(r > 219 || c > 179 ){r = 2;  c = 2; }
-
-        
+        int r = getRandomNumber(1, MAX_ROWS); //Getting range from 1 to max rows,  low chance for 0 and max        
         int rm1 = r - 1;
         int rp1 = r + 1;
         int cm1 = c - 1;
@@ -168,27 +166,7 @@ public class SandLab{
                         if(cp1 >= MAX_COLS-1){cp1 = 1;}
                         // Wrap from left to right
                         if(cm1 <= 1){cm1 = (MAX_COLS -1);}
-                        
-                    
-                        /*
-                        if(sandGrid[r][0] == elementType && sandGrid[r][180] != METAL) {
-                          sandGrid[r][0] = EMPTY;
-                          sandGrid[r][180] = elementType;
-                        } else if(sandGrid[r][0] == elementType && sandGrid[r][179] != METAL) {
-                            sandGrid[r][0] = EMPTY;
-                            sandGrid[r][179] = elementType;
-                        } else {
-                            sandGrid[r][0] = EMPTY;
-                            sandGrid[r][180] = EMPTY;
-                        }
-                        
-                        if(sandGrid[220][c] == elementType && sandGrid[0][c] != METAL) {
-                          sandGrid[220][c] = EMPTY;
-                          sandGrid[0][c] = elementType; 
-                        } else {
-                          sandGrid[220][c] = EMPTY;
-                          sandGrid[0][c] = EMPTY; 
-                        }      */            
+                                 
                       }// end of check
                       
                       // This module will modify the sand element.
@@ -232,11 +210,11 @@ public class SandLab{
     }
     //warpping for right to left
     if (sandGrid[r][c] != SAND) {}
-    else if ((sandGrid[r][c] == SAND) && c == MAX_COLS-2 || c == MAX_COLS-1 || c == MAX_COLS || c == MAX_COLS+1) {
+    else if ((sandGrid[r][c] == SAND) && (c == MAX_COLS-2 || c == MAX_COLS-1 || c == MAX_COLS || c == MAX_COLS+1) && sandGrid[r][2] != METAL){
       sandGrid[r][c] = EMPTY;
       sandGrid[r][2] =  SAND;//had to use 2 to allow sand enough room to move
     }
-    else if ((sandGrid[r][c] == SAND) && (c == 0 || c == -1 || c == 0 || c == 1) ){
+    else if ((sandGrid[r][c] == SAND) && (c == 0 || c == -1 || c == 0 || c == 1) && sandGrid[r][MAX_COLS-3] != METAL ){
       sandGrid[r][c] = EMPTY;
       sandGrid[r][MAX_COLS-3] =  SAND;//-3 allows sand's falling behavior to work and not get stuck on right MAX_COLS
     }
@@ -438,6 +416,7 @@ public void modifyWater(int r, int c) {
       // min or max row has been reached.
       if(sandGrid[rp1][c] == sandGrid[MAX_ROWS - 1][c]
         && sandGrid[rp1][c] != AIR
+        && sandGrid[rp1][c] != OIL
         && sandGrid[rp1][c] != WATER
         && sandGrid[rp1][c] != METAL
         && sandGrid[rp1][c] != CREATOR
@@ -448,7 +427,23 @@ public void modifyWater(int r, int c) {
        sandGrid[r - (MAX_ROWS - 2)][c] =  WATER; 
       } // End of 2nd If-Statement.
     } // End of 1st If-Statement.
-    
+        // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
+    // min or max row has been reached.
+    if (sandGrid[r][c] != WATER) {}
+    else if ((sandGrid[r][c] == WATER) && r == MAX_ROWS-2 || r == MAX_ROWS-1 || r == MAX_ROWS || r == MAX_ROWS+1) {
+      sandGrid[r][c] = EMPTY;
+      sandGrid[1][c] =  WATER;
+    }
+    //warpping for right to left
+    if (sandGrid[r][c] != WATER) {}
+    else if ((sandGrid[r][c] == WATER) && (c == MAX_COLS-2 || c == MAX_COLS-1 || c == MAX_COLS || c == MAX_COLS+1) && sandGrid[r][2] != METAL ) {
+      sandGrid[r][c] = EMPTY;
+      sandGrid[r][2] =  WATER;//had to use 2 to allow sand enough room to move
+    }
+    else if ((sandGrid[r][c] == WATER) && (c == 0 || c == -1 || c == 0 || c == 1) && sandGrid[r][MAX_COLS-3] !=METAL ){
+      sandGrid[r][c] = EMPTY;
+      sandGrid[r][MAX_COLS-3] =  WATER;//-3 allows sand's falling behavior to work and not get stuck on right MAX_COLS
+    }
     // This will adjust the WATER to pile instead of stack. It will check the right and the left locations. 
     // If there is an open spot on either side itll end up being on the left or right side of the original position.
     // This is to the left. 
@@ -465,6 +460,7 @@ public void modifyWater(int r, int c) {
           && sandGrid[r][cm1] != WATER 
           && sandGrid[r][cm1] != SAND
           && sandGrid[r][cm1] != OIL 
+          && sandGrid[r][cm1] != AIR 
           && sandGrid[r][cm1] != METAL
           && sandGrid[r][cm1] != CREATOR
           && sandGrid[r][cm1] != DESTROYER
@@ -486,6 +482,7 @@ public void modifyWater(int r, int c) {
      if(sandGrid[r][c] == WATER
                 && sandGrid[r][cp1] != WATER 
                 && sandGrid[r][cp1] != OIL 
+                && sandGrid[r][cp1] != AIR 
                 && sandGrid[r][cp1] != SAND 
                 && sandGrid[r][cp1] != METAL
                 && sandGrid[r][cp1] != CREATOR
@@ -543,7 +540,24 @@ public void modifyWater(int r, int c) {
        sandGrid[r - (MAX_ROWS - 2)][c] =  AIR; 
       } // End of 2nd If-Statement.
     } // End of 1st If-Statement.
-    
+           // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
+    // min or max row has been reached.
+    if (sandGrid[r][c] != AIR) {}
+    else if ((sandGrid[r][c] == AIR) && r == 0 || r == -1 || r == 1 || r == 2) {
+      sandGrid[r][c] = EMPTY;
+      sandGrid[1][c] = EMPTY;
+      sandGrid[MAX_ROWS-2][c] =  AIR;
+    }
+    //warpping for right to left
+    if (sandGrid[r][c] != AIR) {}
+    else if ((sandGrid[r][c] == AIR) && (c == MAX_COLS-2 || c == MAX_COLS-1 || c == MAX_COLS || c == MAX_COLS+1) && sandGrid[r][2] != METAL ) {
+      sandGrid[r][c] = EMPTY;
+      sandGrid[r][2] =  AIR;//had to use 2 to allow sand enough room to move
+    }
+    else if ((sandGrid[r][c] == AIR) && (c == 0 || c == -1 || c == 0 || c == 1) && sandGrid[r][MAX_COLS-3] != METAL ){
+      sandGrid[r][c] = EMPTY;
+      sandGrid[r][MAX_COLS-3] =  AIR;//-3 allows sand's falling behavior to work and not get stuck on right MAX_COLS
+    }
     // This will adjust the AIR to pile instead of stack. It will check the right and the left locations. 
     // If there is an open spot on either side itll end up being on the left or right side of the original position.
     // This is to the left. 
@@ -649,8 +663,24 @@ public void modifyWater(int r, int c) {
      sandGrid[r][c] = EMPTY;
          } // End of If-Statement.
         } // End of If-Statement. Random one
-
+             // This will address the situation of wrapping up and down. It swaps the location to produce the element when the
+    // min or max row has been reached.
+    if (sandGrid[r][c] != OIL) {}
+    else if ((sandGrid[r][c] == OIL) && (r == MAX_ROWS-2 || r == MAX_ROWS-1 || r == MAX_ROWS || r == MAX_ROWS+1)) {
+      sandGrid[r][c] = EMPTY;
+      sandGrid[1][c] =  OIL;
+    }
+    //warpping for right to left
+    if (sandGrid[r][c] != OIL) {}
+    else if ((sandGrid[r][c] == OIL) && (c == MAX_COLS-2 || c == MAX_COLS-1 || c == MAX_COLS || c == MAX_COLS+1) && sandGrid[r][2] != METAL) {
+      sandGrid[r][c] = EMPTY;
+      sandGrid[r][2] =  OIL;//had to use 2 to allow sand enough room to move
+    }
+    else if ((sandGrid[r][c] == OIL) && (c == 0 || c == -1 || c == 0 || c == 1) && sandGrid[r][MAX_COLS-3] != METAL ){
+      sandGrid[r][c] = EMPTY;
+      sandGrid[r][MAX_COLS-3] =  OIL;//-3 allows sand's falling behavior to work and not get stuck on right MAX_COLS
   }
+}
 
 
 
