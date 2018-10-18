@@ -62,13 +62,14 @@ public class SandLab{
     names[OIL] = "Oil"; 
     names[AIR] = "Air"; 
     
-    display = new LabDisplay("SandLab", numRows, numCols, names);
+    display = new LabDisplay("SandLab", numRows + 1, numCols + 1, names);
     //grid =
     sandGrid = new int[numRows + 1][numCols + 1];
     
     if (FILE_NAME != "") {
       System.out.println("loading " + FILE_NAME);
-      //sandGrid = SandLabFiles.readFile(NEW_FILE_NAME);   //uncomment this later to save your file...
+      SandLabFiles.writeFile(sandGrid, NEW_FILE_NAME);
+      sandGrid = SandLabFiles.readFile(NEW_FILE_NAME);   //uncomment this later to save your file...
       
     } 
   }
@@ -77,19 +78,13 @@ public class SandLab{
   private void locationClicked(int row, int col, int tool){
     
     //insert code here 
-    sandGrid[row][col] = tool;
-    
     if (tool == SAVEFILE) {
-      // SandLabFiles.writeFile(sandGrid, NEW_FILE_NAME);  //uncomment this later to save your file...
-    }
-    else {sandGrid[row][col] = tool;}
-    /* if (tool == SAVEFILE) {
      //   SandLabFiles.setRowsAndCols(MAX_ROWS, MAX_COLS);
      //   SandLabFiles.writeFile(sandGrid, NEW_FILE_NAME);
-     //  } else {
+      } else {
      sandGrid[row][col] = tool;
      } 
-     */
+     
   }
   
   //copies each element of grid into the display
